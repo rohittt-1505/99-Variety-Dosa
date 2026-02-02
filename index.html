@@ -41,7 +41,7 @@
 
         /* HERO */
         .hero {
-            height: 100vh;
+            min-height: 100vh;
             background: url('images/dosa-bg.jpg') center/cover no-repeat;
             display: flex;
             align-items: center;
@@ -532,10 +532,14 @@
 
     <script>
 
-        // Always open page from top on refresh (mobile fix)
-        window.onbeforeunload = function () {
-            window.scrollTo(0, 0);
-        };
+        // Force page always start from top (mobile fix)
+if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+}
+
+window.addEventListener("load", function () {
+    window.scrollTo(0, 0);
+});
 
         let cart = [];
 
