@@ -734,15 +734,20 @@ ${d[3].map(i => `<span class="ingredient-badge">${i}</span>`).join("")}
                 return;
             }
 
-            let amount = document.getElementById("totalPrice").innerText;
+            let amount = parseFloat(document.getElementById("totalPrice").innerText).toFixed(2);
 
-            let upiId = "9518779234@ybl";   // 👈 Yaha apna UPI ID daalo
+            let upiId = "9518779234@ybl";
             let name = "Rohit Rathod";
 
             let upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR`;
 
-            window.location.href = upiUrl;
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                window.location.href = upiUrl;
+            } else {
+                alert("UPI payment works only on mobile device.");
+            }
         }
+
 
     </script>
 
