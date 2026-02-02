@@ -727,27 +727,23 @@ ${d[3].map(i => `<span class="ingredient-badge">${i}</span>`).join("")}
         });
 
 
-        function payNow() {
+       function payNow() {
 
-            if (cart.length === 0) {
-                alert("Cart is empty!");
-                return;
-            }
+    if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+    }
 
-            let amount = parseFloat(document.getElementById("totalPrice").innerText).toFixed(2);
+    let amount = parseFloat(document.getElementById("totalPrice").innerText).toFixed(2);
 
-            let upiId = "9518779234@ybl";
-            let name = "Rohit Rathod";
+    let upiId = "9518779234@ybl";
+    let name = "Rohit Rathod";
 
-            let upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR`;
+    let upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR`;
 
-            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-                window.location.href = upiUrl;
-            } else {
-                alert("UPI payment works only on mobile device.");
-            }
-        }
-
+    // Open UPI app
+    window.location.href = upiUrl;
+}
 
     </script>
 
