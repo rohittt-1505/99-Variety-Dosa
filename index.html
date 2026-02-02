@@ -90,7 +90,7 @@
             perspective: 1000px;
             height: 360px;
             cursor: pointer;
-            position: relative;
+            transition: 0.6s;
         }
 
 
@@ -105,19 +105,19 @@
         .flip-front,
         .flip-back {
             position: absolute;
-            inset: 0;
-            /* IMPORTANT */
-            backface-visibility: hidden;
-        }
-
-        #dosaContainer>div {
-            display: flex;
-        }
-
-        .flip-card {
             width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #1c1c1c;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
         }
-
 
         .flip-front img {
             width: 100%;
@@ -130,46 +130,22 @@
         .price {
             background: #f4c430;
             color: #000;
-            padding: 6px 18px;
-            border-radius: 20px;
+            padding: 6px 16px;
+            border-radius: 10px;
             font-weight: 600;
-            font-size: 14px;
-            margin-top: 8px;
         }
-
 
         .flip-back {
             transform: rotateY(180deg);
         }
 
-        .flip-back {
-            background: linear-gradient(145deg, #1b1b1b, #141414);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 25px;
-            border-radius: 15px;
-        }
-
-        .flip-back h6 {
-            color: #f4c430;
-            margin-bottom: 15px;
-            font-size: 14px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-
         .ingredients {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
+            margin-top: 10px;
+            gap: 8px;
         }
-
 
         .ingredient-badge {
             background: rgba(244, 196, 48, 0.15);
@@ -190,27 +166,18 @@
             position: relative;
         }
 
-        .flip-front {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
         .add-btn {
             position: absolute;
+            bottom: 15px;
             right: 15px;
-            bottom: -25px;
             background: #28a745 !important;
             color: #fff !important;
             border: none;
-            border-radius: 20px;
-            padding: 6px 18px;
-            font-size: 13px;
-            font-weight: 600;
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 14px;
             transition: 0.3s;
         }
-
 
         .add-btn:hover {
             background: #1e7e34 !important;
@@ -487,10 +454,6 @@
             background: #ffdd57;
             transform: scale(1.05);
         }
-
-        .flip-card.flipped .flip-inner {
-            transform: rotateY(180deg);
-        }
     </style>
 </head>
 
@@ -614,20 +577,31 @@ ${d[3].map(i => `<span class="ingredient-badge">${i}</span>`).join("")}
 `;
         });
 
+        /* Flip logic (except Add button) */
         document.addEventListener("click", function (e) {
 
-            if (e.target.classList.contains("add-btn")) return;
+            // Agar Add button click hua to flip mat karo
+            if (e.target.classList.contains("add-btn")) {
+                return;
+            }
 
             let card = e.target.closest(".flip-card");
-            if (!card) return;
+            if (card) {
 
-            document.querySelectorAll(".flip-card").forEach(c => {
-                if (c !== card) c.classList.remove("flipped");
-            });
+                document.querySelectorAll(".flip-inner").forEach(inner => {
+                    if (inner !== card.querySelector(".flip-inner")) {
+                        inner.style.transform = "rotateY(0deg)";
+                    }
+                });
 
-            card.classList.toggle("flipped");
+                let inner = card.querySelector(".flip-inner");
+
+                inner.style.transform =
+                    inner.style.transform === "rotateY(180deg)"
+                        ? "rotateY(0deg)"
+                        : "rotateY(180deg)";
+            }
         });
-
 
 
         // let cart = [];
