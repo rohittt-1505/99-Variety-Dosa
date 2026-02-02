@@ -483,7 +483,9 @@
             <h1>99 - Variety Dosa's</h1>
             <br>
             <p>Premium Taste • Crispy • Fresh</p>
-            <a href="#menu" class="btn btn-gold mt-3">Explore Menu</a>
+<a href="javascript:void(0)" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})" class="btn btn-gold mt-3">
+Explore Menu
+</a>
         </div>
     </section>
 
@@ -528,6 +530,12 @@
     <a href="https://wa.me/919999999999" target="_blank" class="whatsapp">💬</a>
 
     <script>
+
+        // Always open page from top on refresh (mobile fix)
+window.onbeforeunload = function () {
+    window.scrollTo(0, 0);
+};
+
         let cart = [];
 
         const dosas = [
