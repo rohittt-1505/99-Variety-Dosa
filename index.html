@@ -10,6 +10,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
@@ -19,9 +23,14 @@
 
         /* NAVBAR */
         .custom-navbar {
-            background: #000;
+            background: transparent;
             padding: 15px 0;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.6);
+            transition: 0.3s;
+        }
+
+        .custom-navbar.scrolled {
+            background: #000;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.6);
         }
 
         .brand {
@@ -33,22 +42,12 @@
         /* HERO */
         .hero {
             height: 100vh;
-            min-height: 100vh;
             background: url('images/dosa-bg.jpg') center/cover no-repeat;
-            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 20px;
-        }
-
-        /* Mobile me bhi full viewport height */
-        @media(max-width:768px) {
-            .hero {
-                height: 100dvh;
-                /* important for mobile */
-            }
+            position: relative;
         }
 
         .overlay {
@@ -64,7 +63,7 @@
         }
 
         .hero h1 {
-            font-size: 50px;
+            font-size: 52px;
         }
 
         .btn-gold {
@@ -76,18 +75,29 @@
             font-weight: 600;
         }
 
-        /* SECTION */
-        .section-title {
-            color: #f4c430;
-            font-weight: 700;
-            margin-top: 28px;
+        .btn-gold:hover {
+            background: #ffdd57
         }
 
-        /* FLIP CARD */
+        /* SEARCH */
+        #search {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        /* CARD */
         .flip-card {
             perspective: 1000px;
             height: 360px;
             cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: 0.6s;
+        }
+
+        .flip-card.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .flip-inner {
@@ -139,15 +149,65 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            margin-top: 10px;
+            gap: 8px;
         }
 
-        .ingredients span {
+        .ingredient-badge {
+            background: rgba(244, 196, 48, 0.15);
+            color: #f4c430;
+            padding: 6px 14px;
+            border-radius: 30px;
+            font-size: 13px;
+            border: 1px solid rgba(244, 196, 48, 0.4);
+            transition: 0.3s;
+        }
+
+        .ingredient-badge:hover {
             background: #f4c430;
             color: #000;
-            padding: 5px 12px;
-            border-radius: 20px;
-            margin: 5px;
-            font-size: 13px;
+        }
+
+        .add-btn {
+            background: #28a745 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 25px;
+            padding: 6px 14px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            background: #1e7e34 !important;
+            transform: scale(1.05);
+        }
+
+
+        /* CART BADGE */
+        .cart-badge {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #f4c430;
+            color: #000;
+            padding: 8px 14px;
+            border-radius: 30px;
+            font-weight: 600;
+            z-index: 9999;
+        }
+
+        /* WHATSAPP */
+        .whatsapp {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25D366;
+            color: #fff;
+            font-size: 22px;
+            padding: 12px 16px;
+            border-radius: 50%;
+            text-decoration: none;
         }
 
         /* REVIEWS */
@@ -155,10 +215,6 @@
             background: #1a1a1a;
             padding: 60px 20px;
             text-align: center;
-        }
-
-        #reviewText {
-            font-size: 20px;
         }
 
         /* FOOTER */
@@ -169,16 +225,17 @@
             color: #aaa;
         }
 
-        .footer h5 {
+        .designer-link {
             color: #f4c430;
+            text-decoration: none;
+        }
+
+        .designer-link:hover {
+            color: #fff
         }
 
         /* MOBILE */
         @media(max-width:768px) {
-            .hero {
-                height: 75vh;
-            }
-
             .hero h1 {
                 font-size: 28px;
             }
@@ -191,26 +248,16 @@
                 height: 150px;
             }
         }
-
-        .designer-link {
-            color: #f4c430;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .designer-link:hover {
-            color: #ffffff;
-            text-decoration: underline;
-        }
     </style>
 </head>
 
 <body>
 
+    <div class="cart-badge">View Cart: <span id="cartCount">0</span></div>
+
     <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
         <div class="container">
-            <a class="navbar-brand brand" href="#">99 Variety Dosa...</a>
+            <a class="navbar-brand brand" href="#">99 Variety Dosa</a>
         </div>
     </nav>
 
@@ -225,28 +272,51 @@
 
     <section id="menu" class="py-5">
         <div class="container">
-            <h2 class="section-title text-center mb-5">Our Signature Dosa's</h2>
-            <div class="row g-4">
+            <h2 class="text-center mb-4" style="color:#f4c430;">Our Signature Dosas</h2>
 
-                <!-- ALL 12 DOSAS -->
+            <input type="text" id="search" placeholder="Search Dosa..." class="form-control mb-4">
 
-                <script>
-                    const dosas = [
-                        ["masala.jpg", "Masala Dosa", "₹90", ["Rice Batter", "Potato", "Butter", "Onion", "Sambar"]],
-                        ["cheese.jpg", "Cheese Dosa", "₹150", ["Cheese", "Butter", "Spices", "Onion", "Sambar"]],
-                        ["butter.jpg", "Butter Dosa", "₹110", ["Butter", "Rice Batter", "Chutney", "Sambar"]],
-                        ["paneer.jpg", "Paneer Dosa", "₹170", ["Paneer", "Capsicum", "Onion", "Butter", "Masala"]],
-                        ["mysore.jpg", "Mysore Dosa", "₹120", ["Red Chutney", "Rice Batter", "Butter", "Onion"]],
-                        ["corn.jpg", "Corn Cheese Dosa", "₹160", ["Sweet Corn", "Cheese", "Butter", "Spices"]],
-                        ["pizza.jpg", "Pizza Dosa", "₹180", ["Cheese", "Capsicum", "Tomato", "Sauce"]],
-                        ["rava.jpg", "Rava Dosa", "₹100", ["Rava", "Cumin", "Pepper", "Onion"]],
-                        ["onion.jpg", "Onion Dosa", "₹95", ["Onion", "Rice Batter", "Butter", "Chutney"]],
-                        ["mexican.jpg", "Mexican Dosa", "₹190", ["Beans", "Cheese", "Capsicum", "Sauce"]],
-                        ["schezwan.jpg", "Schezwan Dosa", "₹175", ["Schezwan Sauce", "Onion", "Capsicum"]],
-                        ["coconut.jpg", "Coconut Dosa", "₹105", ["Coconut", "Rice Batter", "Butter"]]
-                    ];
+            <div class="row g-4" id="dosaContainer"></div>
 
-                    document.write(dosas.map(d => `
+        </div>
+    </section>
+
+    <section class="reviews">
+        <h2 style="color:#f4c430;">Customer Reviews</h2>
+        <div id="reviewText">Best Dosa in the City! ⭐⭐⭐⭐⭐</div>
+    </section>
+
+    <footer class="footer">
+        <hr>
+        <p>© 2026 All Rights Reserved</p>
+        <p>Develop by <a href="https://rohitrathod.netlify.app/" target="_blank" class="designer-link">Rohittt 💖</a>
+        </p>
+    </footer>
+
+    <a href="https://wa.me/919999999999" target="_blank" class="whatsapp">💬</a>
+
+    <script>
+        let cart = 0;
+
+        const dosas = [
+            ["masala.jpg", "Masala Dosa", "₹90", ["Rice Batter", "Potato", "Butter"]],
+            ["cheese.jpg", "Cheese Dosa", "₹150", ["Cheese", "Butter"]],
+            ["butter.jpg", "Butter Dosa", "₹110", ["Butter"]],
+            ["paneer.jpg", "Paneer Dosa", "₹170", ["Paneer", "Capsicum"]],
+            ["mysore.jpg", "Mysore Dosa", "₹120", ["Red Chutney"]],
+            ["corn.jpg", "Corn Cheese Dosa", "₹160", ["Corn", "Cheese"]],
+            ["pizza.jpg", "Pizza Dosa", "₹180", ["Cheese", "Tomato"]],
+            ["rava.jpg", "Rava Dosa", "₹100", ["Rava", "Pepper"]],
+            ["onion.jpg", "Onion Dosa", "₹95", ["Onion"]],
+            ["mexican.jpg", "Mexican Dosa", "₹190", ["Beans", "Cheese"]],
+            ["schezwan.jpg", "Schezwan Dosa", "₹175", ["Schezwan"]],
+            ["coconut.jpg", "Coconut Dosa", "₹105", ["Coconut"]]
+        ];
+
+        const container = document.getElementById("dosaContainer");
+
+        dosas.forEach(d => {
+            container.innerHTML += `
 <div class="col-lg-3 col-md-6 col-12">
 <div class="flip-card">
 <div class="flip-inner">
@@ -254,52 +324,66 @@
 <img src="images/${d[0]}">
 <h5>${d[1]}</h5>
 <span class="price">${d[2]}</span>
+<button class="add-btn btn-sm mt-2">Add</button>
 </div>
 <div class="flip-back">
 <h6>Ingredients</h6>
 <div class="ingredients">
-${d[3].map(i => `<span>${i}</span>`).join("")}
+${d[3].map(i => `<span class="ingredient-badge">${i}</span>`).join("")}
 </div>
 </div>
 </div>
 </div>
 </div>
-`).join(""));
-                </script>
+`;
+        });
 
-            </div>
-        </div>
-    </section>
+        /* Flip logic (except Add button) */
+        document.addEventListener("click", function (e) {
 
-    <section class="reviews">
-        <h2 class="section-title mb-4">Customer Reviews</h2>
-        <div id="reviewText">Best Dosa in the City! ⭐⭐⭐⭐⭐</div>
-    </section>
+            // Agar Add button click hua to flip mat karo
+            if (e.target.classList.contains("add-btn")) {
+                return;
+            }
 
-    <footer class="footer">
-        <hr>
-        <p>© 2026 All Rights Reserved</p>
-        <p>
-            Develop by
-            <a href="https://rohitrathod.netlify.app/" target="_blank" rel="noopener noreferrer" class="designer-link">
-                Rohittt 💖
-            </a>
-        </p>
-    </footer>
+            let card = e.target.closest(".flip-card");
+            if (card) {
 
-
-    <script>
-        document.addEventListener("click", e => {
-            if (e.target.closest(".flip-card")) {
-                let card = e.target.closest(".flip-card");
-                document.querySelectorAll(".flip-inner").forEach(i => {
-                    if (i !== card.querySelector(".flip-inner")) i.style.transform = "rotateY(0deg)";
+                document.querySelectorAll(".flip-inner").forEach(inner => {
+                    if (inner !== card.querySelector(".flip-inner")) {
+                        inner.style.transform = "rotateY(0deg)";
+                    }
                 });
+
                 let inner = card.querySelector(".flip-inner");
-                inner.style.transform = inner.style.transform === "rotateY(180deg)" ? "rotateY(0deg)" : "rotateY(180deg)";
+
+                inner.style.transform =
+                    inner.style.transform === "rotateY(180deg)"
+                        ? "rotateY(0deg)"
+                        : "rotateY(180deg)";
             }
         });
 
+
+        /* Add to cart */
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("add-btn")) {
+                e.stopPropagation(); // 🔥 very important
+                cart++;
+                document.getElementById("cartCount").innerText = cart;
+            }
+        });
+
+
+        /* Search */
+        document.getElementById("search").addEventListener("keyup", function () {
+            let val = this.value.toLowerCase();
+            document.querySelectorAll(".flip-card").forEach(card => {
+                card.style.display = card.innerText.toLowerCase().includes(val) ? "block" : "none";
+            });
+        });
+
+        /* Reviews */
         let reviews = [
             "Best Dosa in the City! ⭐⭐⭐⭐⭐",
             "Paneer Dosa was amazing! ⭐⭐⭐⭐",
@@ -310,6 +394,27 @@ ${d[3].map(i => `<span>${i}</span>`).join("")}
             i = (i + 1) % reviews.length;
             document.getElementById("reviewText").innerText = reviews[i];
         }, 3000);
+
+        /* Navbar scroll */
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 50) {
+                document.querySelector(".custom-navbar").classList.add("scrolled");
+            } else {
+                document.querySelector(".custom-navbar").classList.remove("scrolled");
+            }
+        });
+
+        /* Scroll animation */
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("show");
+                }
+            });
+        });
+        document.querySelectorAll(".flip-card").forEach(card => {
+            observer.observe(card);
+        });
     </script>
 
 </body>
