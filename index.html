@@ -33,12 +33,22 @@
         /* HERO */
         .hero {
             height: 100vh;
+            min-height: 100vh;
             background: url('images/dosa-bg.jpg') center/cover no-repeat;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
+            padding: 20px;
+        }
+
+        /* Mobile me bhi full viewport height */
+        @media(max-width:768px) {
+            .hero {
+                height: 100dvh;
+                /* important for mobile */
+            }
         }
 
         .overlay {
