@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>99 Variety Dosa</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #0e0e0e;
+            color: #fff;
+            scroll-behavior: smooth;
+        }
+
+        /* NAVBAR FIX */
+        .custom-navbar {
+            background: #000;
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand {
+            color: #f4c430 !important;
+            font-weight: 700;
+            font-size: 22px;
+            letter-spacing: 1px;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            background: url('../images/dosa-bg.jpg') center/cover no-repeat;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            opacity: 0.9;
+        }
+
+        /* BUTTON FIX */
+        .btn-gold {
+            background: #f4c430;
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn-gold:hover {
+            background: #ffdd57;
+            transform: scale(1.05);
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            color: #f4c430;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        /* GRID FIX */
+        .row {
+            align-items: stretch;
+        }
+
+        /* FLIP CARD */
+        .flip-card {
+            perspective: 1000px;
+            height: 360px;
+            cursor: pointer;
+        }
+
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-front,
+        .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: #1c1c1c;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .flip-front img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        /* Center name */
+        .flip-front h5 {
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        /* Center price */
+        .price {
+            background: #f4c430;
+            color: #000;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* BACK SIDE */
+        .flip-back {
+            transform: rotateY(180deg);
+        }
+
+        .ingredients {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .ingredients span {
+            background: #f4c430;
+            color: #000;
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin: 5px;
+            font-size: 13px;
+        }
+
+        /* REVIEWS */
+        .reviews {
+            background: #1a1a1a;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        #reviewText {
+            font-size: 20px;
+            max-width: 600px;
+            margin: auto;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #000;
+            padding: 40px 20px;
+            text-align: center;
+            color: #aaa;
+        }
+
+        .footer h5 {
+            color: #f4c430;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+
+            .hero {
+                height: 75vh;
+            }
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .flip-card {
+                height: 300px;
+            }
+
+            .flip-front img {
+                height: 150px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+        <div class="container">
+            <a class="navbar-brand brand" href="#">99 Variety Dosa</a>
+        </div>
+    </nav>
+
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="overlay"></div>
+        <div class="hero-content text-center">
+            <h1>Authentic 99 Variety Dosa</h1>
+            <p>Premium Taste • Crispy • Fresh</p>
+            <a href="#menu" class="btn btn-gold mt-3">Explore Menu</a>
+        </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="menu" class="py-5">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Our Signature Dosas</h2>
+
+            <div class="row g-4">
+
+                <!-- 12 CARDS -->
+
+                <!-- Repeatable structure -->
+
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="flip-card">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="images/masala.jpg">
+                                <h5>Masala Dosa</h5>
+                                <span class="price">₹90</span>
+                            </div>
+                            <div class="flip-back">
+                                <h6>Ingredients</h6>
+                                <div class="ingredients">
+                                    <span>Rice Batter</span>
+                                    <span>Potato Masala</span>
+                                    <span>Butter</span>
+                                    <span>Onion</span>
+                                    <span>Sambar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="flip-card">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="images/cheese.jpg">
+                                <h5>Cheese Dosa</h5>
+                                <span class="price">₹150</span>
+                            </div>
+                            <div class="flip-back">
+                                <h6>Ingredients</h6>
+                                <div class="ingredients">
+                                    <span>Cheese</span>
+                                    <span>Butter</span>
+                                    <span>Spices</span>
+                                    <span>Onion</span>
+                                    <span>Sambar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="flip-card">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="images/paneer.jpg">
+                                <h5>Paneer Dosa</h5>
+                                <span class="price">₹170</span>
+                            </div>
+                            <div class="flip-back">
+                                <h6>Ingredients</h6>
+                                <div class="ingredients">
+                                    <span>Paneer</span>
+                                    <span>Capsicum</span>
+                                    <span>Onion</span>
+                                    <span>Butter</span>
+                                    <span>Masala</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 col-12">
+                    <div class="flip-card">
+                        <div class="flip-inner">
+                            <div class="flip-front">
+                                <img src="images/mysore.jpg">
+                                <h5>Mysore Dosa</h5>
+                                <span class="price">₹120</span>
+                            </div>
+                            <div class="flip-back">
+                                <h6>Ingredients</h6>
+                                <div class="ingredients">
+                                    <span>Red Chutney</span>
+                                    <span>Rice Batter</span>
+                                    <span>Butter</span>
+                                    <span>Onion</span>
+                                    <span>Sambar</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add remaining 8 same structure with your images -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CUSTOMER REVIEWS -->
+    <section class="reviews py-5">
+        <div class="container text-center">
+            <h2 class="section-title mb-4">Customer Reviews</h2>
+            <div id="reviewText">“Best Dosa in the City!” ⭐⭐⭐⭐⭐</div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer text-center">
+        <h5>99 Variety Dosa</h5>
+        <p>Fresh • Hygienic • Authentic</p>
+        <hr>
+        <p>© 2026 All Rights Reserved</p>
+    </footer>
+
+    <!-- <script src="js/script.js"></script> -->
+
+    <script>
+        document.querySelectorAll(".flip-card").forEach(card => {
+            card.addEventListener("click", function () {
+
+                document.querySelectorAll(".flip-inner").forEach(inner => {
+                    if (inner !== this.querySelector(".flip-inner")) {
+                        inner.style.transform = "rotateY(0deg)";
+                    }
+                });
+
+                let inner = this.querySelector(".flip-inner");
+                inner.style.transform =
+                    inner.style.transform === "rotateY(180deg)"
+                        ? "rotateY(0deg)"
+                        : "rotateY(180deg)";
+
+            });
+        });
+
+        /* Reviews Auto Change */
+        let reviews = [
+            "Best Dosa in the City! ⭐⭐⭐⭐⭐",
+            "Paneer Dosa was amazing! ⭐⭐⭐⭐",
+            "Super crispy and fresh taste! ⭐⭐⭐⭐⭐"
+        ];
+
+        let i = 0;
+        setInterval(() => {
+            i = (i + 1) % reviews.length;
+            document.getElementById("reviewText").innerText = reviews[i];
+        }, 3000);
+
+    </script>
+</body>
+
+</html>
