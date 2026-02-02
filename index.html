@@ -191,6 +191,18 @@
                 height: 150px;
             }
         }
+
+        .designer-link {
+            color: #f4c430;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .designer-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
     </style>
 </head>
 
@@ -213,7 +225,7 @@
 
     <section id="menu" class="py-5">
         <div class="container">
-            <h2 class="section-title text-center mb-5">Our Signature Dosas</h2>
+            <h2 class="section-title text-center mb-5">Our Signature Dosa's</h2>
             <div class="row g-4">
 
                 <!-- ALL 12 DOSAS -->
@@ -265,11 +277,15 @@ ${d[3].map(i => `<span>${i}</span>`).join("")}
     </section>
 
     <footer class="footer">
-        <!-- <h5>99 Variety Dosa</h5>
-        <p>Fresh • Hygienic • Authentic</p> -->
         <hr>
-        <p>© 2026 All Rights Reserved</p>
+        <p>© 2026 All Rights Reserved ||
+            Develop by
+            <a href="https://rohitrathod.netlify.app/" target="_blank" rel="noopener noreferrer" class="designer-link">
+                Rohittt 💖
+            </a>
+        </p>
     </footer>
+
 
     <script>
         document.addEventListener("click", e => {
