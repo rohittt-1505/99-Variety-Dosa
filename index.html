@@ -533,7 +533,7 @@
         <div id="cartItems"></div>
         <div class="cart-footer">
             <h5>Total: ₹<span id="totalPrice">0</span></h5>
-            <button class="checkout-btn">Proceed to Checkout</button>
+<button class="checkout-btn" onclick="payNow()">Proceed to Checkout</button>
         </div>
 
 
@@ -725,6 +725,24 @@ ${d[3].map(i => `<span class="ingredient-badge">${i}</span>`).join("")}
                 document.querySelector(".custom-navbar").classList.remove("scrolled");
             }
         });
+
+
+        function payNow() {
+
+    if (cart.length === 0) {
+        alert("Cart is empty!");
+        return;
+    }
+
+    let amount = document.getElementById("totalPrice").innerText;
+
+    let upiId = "9518779234@ybl";   // 👈 Yaha apna UPI ID daalo
+    let name = "Rohit Rathod";
+
+    let upiUrl = `upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR`;
+
+    window.location.href = upiUrl;
+}
 
     </script>
 
